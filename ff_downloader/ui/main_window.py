@@ -49,9 +49,9 @@ class TitleBar(QtWidgets.QFrame):
         layout.addWidget(version)
         layout.addStretch(1)
 
-        self.theme_button = self._window_button("sun", "Toggle theme")
-        self.min_button = self._window_button("minimize", "Minimize")
-        self.max_button = self._window_button("maximize", "Maximize")
+        self.theme_button = self._window_button("sun", "Thema wechseln")
+        self.min_button = self._window_button("minimize", "Minimieren")
+        self.max_button = self._window_button("maximize", "Maximieren")
         self.close_button = self._window_button("close", "Close", danger=True)
 
         self.theme_button.clicked.connect(on_theme)
@@ -82,7 +82,7 @@ class TitleBar(QtWidgets.QFrame):
         self.brand_icon.setPixmap(brand_mark(24))
         self.theme_button.setProperty("solarIcon", "sun" if dark else "moon")
         self.theme_button.setToolTip(
-            "Switch to light mode" if dark else "Switch to dark mode"
+            "Wechseln zu Tagmodus" if dark else "Wechseln zu Nachtmodus"
         )
         self._refresh_icons()
 
@@ -198,7 +198,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.resize(1160, 740)
         self.setMinimumSize(840, 590)
 
-        self.settings = QtCore.QSettings("Riteshp2001", APP_NAME)
+        self.settings = QtCore.QSettings("Riteshp2001 /N Übersetzung by Anarchon", APP_NAME)
         saved_theme = str(self.settings.value("theme", "light"))
         self.theme = saved_theme if saved_theme in self.PALETTES else "dark"
         self.resolve_worker: ResolveWorker | None = None
@@ -335,10 +335,10 @@ class MainWindow(QtWidgets.QMainWindow):
         hero_text.setSpacing(4)
         eyebrow = QtWidgets.QLabel("DOWNLOAD MANAGER")
         eyebrow.setObjectName("eyebrow")
-        title = QtWidgets.QLabel("Download files")
+        title = QtWidgets.QLabel("Dateien herunterladen")
         title.setObjectName("appTitle")
         subtitle = QtWidgets.QLabel(
-            "Paste your links, prepare the queue, and download when you are ready."
+            "Fügen Sie Ihre Links ein, bereiten die Warteschlange vor und starten sie den Download, sobald Sie bereit sind.."
         )
         subtitle.setObjectName("subtitle")
         subtitle.setWordWrap(True)
@@ -347,7 +347,7 @@ class MainWindow(QtWidgets.QMainWindow):
         hero_text.addWidget(subtitle)
         hero.addLayout(hero_text, 1)
 
-        self.folder_btn = self._button("Save folder", "folder", compact=True)
+        self.folder_btn = self._button("Download Pfad", "folder", compact=True)
         hero.addWidget(self.folder_btn, 0, QtCore.Qt.AlignBottom)
         body.addLayout(hero)
 
@@ -363,24 +363,24 @@ class MainWindow(QtWidgets.QMainWindow):
         source_layout.setSpacing(8)
         source_layout.addLayout(
             self._section_heading(
-                "paste",
-                "Paste links",
-                "One URL per line. Duplicates are ignored.",
+                "Einfügen",
+                "Links Einfügen",
+                "Eine Url pro Zeile. Duplikate werden ignoriert.",
             )
         )
 
         self.link_input = LinkInput()
         self.link_input.setObjectName("linkInput")
         self.link_input.setPlaceholderText(
-            "Paste public share or direct download URLs here…"
+            "Füge öffentliche oder direkte Download Links hier ein.."
         )
         self.link_input.setMinimumHeight(130)
         source_layout.addWidget(self.link_input, 1)
 
         source_footer = QtWidgets.QHBoxLayout()
-        self.source_count = QtWidgets.QLabel("0 links")
+        self.source_count = QtWidgets.QLabel("0 Links")
         self.source_count.setObjectName("pill")
-        self.input_hint = QtWidgets.QLabel("Paste to prepare automatically")
+        self.input_hint = QtWidgets.QLabel("Links werden automatisch vorbeitet nach einfügen")
         self.input_hint.setObjectName("hint")
         self.resolve_btn = self._button("Prepare", "link", compact=True)
         source_footer.addWidget(self.source_count)
@@ -399,22 +399,22 @@ class MainWindow(QtWidgets.QMainWindow):
         resolved_head = QtWidgets.QHBoxLayout()
         resolved_head.addLayout(
             self._section_heading(
-                "link",
-                "Download queue",
-                "Prepared files appear here.",
+                "Link",
+                "Warteschlangenslots",
+                "Verarbeitete Links landen hier.",
             ),
             1,
         )
-        self.resolved_count = QtWidgets.QLabel("Waiting")
+        self.resolved_count = QtWidgets.QLabel("Warte")
         self.resolved_count.setObjectName("pill")
-        self.copy_btn = self._icon_button("copy", "Copy prepared direct URLs")
+        self.copy_btn = self._icon_button("Kopieren", "Kopiere verarbeitete Download Links")
         resolved_head.addWidget(self.resolved_count, 0, QtCore.Qt.AlignTop)
         resolved_head.addWidget(self.copy_btn, 0, QtCore.Qt.AlignTop)
         resolved_layout.addLayout(resolved_head)
 
         self.resolved_list = QtWidgets.QTreeWidget()
         self.resolved_list.setObjectName("resolvedList")
-        self.resolved_list.setHeaderLabels(["File", "Status"])
+        self.resolved_list.setHeaderLabels(["Datei", "Status"])
         self.resolved_list.setRootIsDecorated(False)
         self.resolved_list.setAlternatingRowColors(False)
         self.resolved_list.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
@@ -424,7 +424,7 @@ class MainWindow(QtWidgets.QMainWindow):
             0, QtWidgets.QHeaderView.ResizeToContents
         )
         self.resolve_empty = QtWidgets.QLabel(
-            "Paste a link above to build your download queue."
+            "Fügen Sie oben einen Link ein, um Ihre Download-Warteschlange zu erstellen.."
         )
         self.resolve_empty.setObjectName("emptyState")
         self.resolve_empty.setAlignment(QtCore.Qt.AlignCenter)
@@ -450,17 +450,17 @@ class MainWindow(QtWidgets.QMainWindow):
             self._section_heading(
                 "download",
                 "Download",
-                "Save the queue to your selected folder.",
+                "Speichere die Download Warteschlange in dem ausgewählten Ordner..",
             ),
             1,
         )
-        self.state_pill = QtWidgets.QLabel("READY")
+        self.state_pill = QtWidgets.QLabel("BEREIT")
         self.state_pill.setObjectName("statePill")
         activity_head.addWidget(self.state_pill, 0, QtCore.Qt.AlignTop)
         activity_layout.addLayout(activity_head)
 
         status_row = QtWidgets.QHBoxLayout()
-        self.file_label = QtWidgets.QLabel("Prepare a link to enable downloading")
+        self.file_label = QtWidgets.QLabel("Bereite einen Link für den Download vor.")
         self.file_label.setObjectName("fileName")
         self.file_label.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
         self.path_label = QtWidgets.QLabel(str(self.download_dir))
@@ -478,7 +478,7 @@ class MainWindow(QtWidgets.QMainWindow):
         activity_layout.addWidget(self.progress)
 
         action_row = QtWidgets.QHBoxLayout()
-        self.progress_value = QtWidgets.QLabel("0% complete")
+        self.progress_value = QtWidgets.QLabel("0% komplett")
         self.progress_value.setObjectName("transferDetail")
         self.speed_value = QtWidgets.QLabel("0 MB/s")
         self.speed_value.setObjectName("transferDetail")
@@ -490,8 +490,8 @@ class MainWindow(QtWidgets.QMainWindow):
         action_row.addStretch(1)
         self.details_btn = self._button("Details", "document", compact=True)
         self.pause_resume_btn = self._button("Pause", "pause", compact=True)
-        self.cancel_btn = self._button("Cancel", "stop", compact=True)
-        self.download_btn = self._button("Download ready files", "download", primary=True)
+        self.cancel_btn = self._button("Abbrechen", "stop", compact=True)
+        self.download_btn = self._button("Verarbeitete Dateien herunterladen", "download", primary=True)
         action_row.addWidget(self.details_btn)
         action_row.addWidget(self.pause_resume_btn)
         action_row.addWidget(self.cancel_btn)
@@ -511,7 +511,7 @@ class MainWindow(QtWidgets.QMainWindow):
         footer = QtWidgets.QHBoxLayout()
         self.status_icon = QtWidgets.QLabel()
         self.status_icon.setFixedSize(18, 18)
-        self.status_text = QtWidgets.QLabel("Ready for links")
+        self.status_text = QtWidgets.QLabel("Warte auf Links")
         self.status_text.setObjectName("footerText")
         footer.addWidget(self.status_icon)
         footer.addWidget(self.status_text)
@@ -655,9 +655,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self._prepared_revision = ""
             self.resolved_list.clear()
             self.resolved_count.setText("Waiting" if not links else "Not resolved")
-            self.resolve_empty.setText("Paste a link above to build your download queue.")
+            self.resolve_empty.setText("Fügen Sie oben einen Link ein, um Ihre Download-Warteschlange zu erstellen..")
             self.queue_stack.setCurrentWidget(self.resolve_empty)
-            self.file_label.setText("Prepare a link to enable downloading")
+            self.file_label.setText("Bereite einen Link zum Downloaden vor..")
         self._sync_actions()
 
     def _auto_resolve_after_paste(self) -> None:
@@ -673,10 +673,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.resolve_btn.setEnabled(False)
         self._resolve_revision = "\n".join(links)
-        self.resolved_count.setText("Resolving…")
-        self.resolve_empty.setText("Preparing links… A browser check may need your attention.")
+        self.resolved_count.setText("Verarbeite…")
+        self.resolve_empty.setText("Verarbeite links… Ein Browser Check braucht vielleicht ihre Aufmerksamkeit.")
         self.queue_stack.setCurrentWidget(self.resolve_empty)
-        self._set_status(f"Resolving {len(links)} link(s)…", "RESOLVING")
+        self._set_status(f"Verarbeite {len(links)} link(s)…", "VERARBEITEN")
         self.resolve_worker = ResolveWorker(links, self)
         self.resolve_worker.log.connect(self.log)
         self.resolve_worker.completed.connect(self._show_resolution)
@@ -692,13 +692,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.resolution_failures.clear()
         self._prepared_revision = ""
         self.resolved_list.clear()
-        self.resolved_count.setText("Failed")
+        self.resolved_count.setText("Fehler")
         self.resolve_empty.setText(
-            "These links could not be prepared. Check the original URLs and try again."
+            "Diese Links konnten nicht vorbereitet werden. Überprüfen Sie die ursprünglichen URLs und versuchen Sie es erneut.."
         )
         self.queue_stack.setCurrentWidget(self.resolve_empty)
-        self._set_status("Resolve failed", "ERROR")
-        self.file_label.setText("No files are ready to download")
+        self._set_status("Verarbeiten fehlgeschlagen", "FEHLER")
+        self.file_label.setText("Keine Dateien bereit zum verarbeiten.")
         self.log(f"Resolve failed: {error}")
         self._sync_actions()
 
@@ -730,7 +730,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.resolved_list if count + failed else self.resolve_empty
         )
         if count:
-            status = f"Prepared {count} download" if count == 1 else f"Prepared {count} downloads"
+            status = f"Verarbeitete {count} download" if count == 1 else f"Verarbeitete {count} downloads"
             if failed:
                 status += f"; {failed} need attention"
             self._set_status(status, "READY")
@@ -784,13 +784,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def choose_folder(self) -> None:
         selected = QtWidgets.QFileDialog.getExistingDirectory(
-            self, "Choose download folder", str(self.download_dir)
+            self, "Download Ordner wählen", str(self.download_dir)
         )
         if selected:
             self.download_dir = Path(selected)
             self.path_label.setText(selected)
             self.path_label.setToolTip(selected)
-            self._set_status("Download folder updated", "READY")
+            self._set_status("Download Ordner aktualisiert", "READY")
 
     def download_all(self) -> None:
         links = self.source_links()
