@@ -1,44 +1,49 @@
-# Fucking Fast Downloader
+# Fuckingfast Downloader -  Deutsch
 
-A focused PyQt5 desktop downloader for public FuckingFast share links. Paste links, prepare a queue, then download the files that are ready. It supports FitGirl page extraction, copying fresh direct URLs, resumable downloads, and pause/cancel controls.
+# Deutscher Fork von https://github.com/Riteshp2001/Fucking-Fast-Downloader  
 
-## Architecture
+Ein spezialisierter PyQt5-Desktop-Downloader für öffentliche FuckingFast-Freigabelinks. Links einfügen, eine Warteschlange erstellen und die fertigen Dateien herunterladen. Unterstützt FitGirl-Seitenextraktion, das Kopieren neuer direkter URLs, fortsetzbare Downloads sowie Pausen-/Abbruchfunktionen.
+
+## Architektur
 
 ```text
 ff_downloader/
 |- core/
-|  |- resolver.py      # source-page and share-link resolver
-|  `- downloader.py    # resumable streaming download engine
+| |- resolver.py # Quellseiten- und Freigabelink-Resolver
+| `- downloader.py # Fortsetzbare Streaming-Download-Engine
 |- ui/
-|  `- main_window.py   # PyQt desktop UI
-|- config.py           # runtime settings
-|- workers.py          # QThread adapters
-`- __main__.py         # application entry point
-main.py                # compatibility launcher
+| `- main_window.py # PyQt-Desktop-Benutzeroberfläche
+|- config.py # Laufzeiteinstellungen
+|- workers.py # QThread-Adapter
+`- __main__.py # Anwendungseinstiegspunkt
+main.py # Kompatibilitätsstarter
 ```
 
-## Install
+## Installation
 
 ```bash
 python -m venv .venv
 # Windows: .venv\Scripts\activate
 # Linux/macOS: source .venv/bin/activate
 pip install -r requirements.txt
-camoufox fetch        # one-time ~660 MB browser download, required for share-link resolution
+camoufox fetch # Einmaliger Browser-Download (ca. 660 MB), erforderlich für die Auflösung von Freigabelinks
 python main.py
 ```
 
-## How it works
+## Funktionsweise
 
-1. Paste original `fuckingfast.co` share URLs, a supported source page, or current `dl.fuckingfast.co` direct URLs.
-2. Select **Prepare**. The prepared queue is stored in the window, so download always uses the links you reviewed—not a hidden cache.
-3. If the host requests verification, complete it in the browser window that opens. This uses the browser's normal session; the app does not try to solve the challenge invisibly.
-4. Select **Download ready files**, or use the copy button to send fresh direct URLs to another download manager.
+1. Fügen Sie die ursprünglichen Freigabe-URLs von `fuckingfast.co`, eine unterstützte Quellseite oder die aktuellen direkten URLs von `dl.fuckingfast.co` ein.
 
-Direct `dl.fuckingfast.co` URLs expire after 24 hours. A stale direct URL cannot be renewed by itself; paste its original share URL to prepare a fresh one. When a batch has stale share URLs, usable files remain in the queue and only the affected entries are marked for attention.
+2. Wählen Sie **Vorbereiten**. Die vorbereitete Warteschlange wird im Fenster gespeichert, sodass der Download immer die von Ihnen überprüften Links verwendet – nicht einen versteckten Cache.
 
-## External managers
+3. Falls der Host eine Verifizierung anfordert, führen Sie diese im sich öffnenden Browserfenster durch. Dies nutzt Ihre normale Browsersitzung; die App versucht nicht, die Herausforderung im Hintergrund zu lösen.
 
-Use **Prepare**, then the copy button to copy one fresh direct URL per line for tools such as JDownloader.
+4. Wählen Sie **Bereit zum Herunterladen von Dateien** oder verwenden Sie die Schaltfläche „Kopieren“, um neue direkte URLs an einen anderen Download-Manager zu senden.
 
-Only download content you are authorized to access.
+Direkte URLs von `dl.fuckingfast.co` sind 24 Stunden gültig. Eine veraltete direkte URL kann nicht automatisch erneuert werden; fügen Sie die ursprüngliche Freigabe-URL ein, um eine neue zu erstellen. Wenn ein Stapel veraltete Freigabe-URLs enthält, bleiben nutzbare Dateien in der Warteschlange, und nur die betroffenen Einträge werden zur Überprüfung markiert.
+
+## Externe Manager
+
+Verwenden Sie **Vorbereiten** und anschließend die Schaltfläche „Kopieren“, um für Tools wie JDownloader pro Zeile eine neue direkte URL zu kopieren.
+
+Laden Sie nur Inhalte herunter, für die Sie berechtigt sind.
